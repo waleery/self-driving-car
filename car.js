@@ -15,33 +15,41 @@ class Car {
     }
 
     update() {
+        this.#changeSpeed();
+
+        this.#changeAngle();
+
+        //if car is moving
+        if (this.speed !== 0) {
+            //limit max speed
+            this.#limitSpeed();
+
+            //slow down by friction
+            this.#includeFriction();
+            
+        }
+
+        this.#moveCar();
+    }
+
+    #moveCar() {
+        this.x -= Math.sin(this.angle) * this.speed;
+        this.y -= Math.cos(this.angle) * this.speed;
+    }
+
+    #changeSpeed() {
+        //if up arrow is pressed, increase speed
         if (this.controls.forward) {
             this.speed += this.acceleration;
         }
+
+        //if down arrow is pressed, reduce speed
         if (this.controls.reverse) {
             this.speed -= this.acceleration;
         }
+    }
 
-        if (this.speed > this.maxSpeed) {
-            this.speed = this.maxSpeed;
-        }
-        if (this.speed < -this.maxSpeed / 2) {
-            this.speed = -this.maxSpeed / 2;
-        }
-
-        if (this.speed > 0) {
-            this.speed -= this.friction;
-        }
-        if (this.speed < 0) {
-            this.speed += this.friction;
-        }
-        if (Math.abs(this.speed) < this.friction) {
-            this.speed = 0;
-        }
-
-        this.x -= Math.sin(this.angle)*this.speed
-        this.y -= Math.cos(this.angle)*this.speed
-
+    #changeAngle() {
         if (this.controls.left) {
             this.angle += 0.03;
         }
@@ -50,12 +58,44 @@ class Car {
         }
     }
 
+    #limitSpeed() {
+        // speed can't be higher than maxSpeed
+        if (this.speed > this.maxSpeed) {
+            this.speed = this.maxSpeed;
+        }
+
+        // speed in reverse is maxSpeed diveded by 2
+        if (this.speed < -this.maxSpeed / 2) {
+            this.speed = -this.maxSpeed / 2;
+        }
+    }
+
+    #includeFriction() {
+        //stop car if speed is less than friciton
+        if (Math.abs(this.speed) < this.friction) {
+            this.speed = 0;
+        }
+
+        if (this.speed > 0) {
+            this.speed -= this.friction;
+        }
+
+        if (this.speed < 0) {
+            this.speed += this.friction;
+        }
+    }
+
     draw(context) {
-        context.save();
+
+        //center car
         context.translate(this.x, this.y);
+
+        //rotate car
         context.rotate(-this.angle);
 
         context.beginPath();
+
+        //CAR
 
         // The rectangle is centered at (x, y) and has the size (width, height)
         context.rect(
@@ -66,6 +106,15 @@ class Car {
         );
         context.fill();
 
-        context.restore();
+
+        //DOT
+        context.beginPath();
+
+        // Draws a circle centered at (x, y) with radius 3
+        context.arc(0,0, 3, 0, 2 * Math.PI);
+        
+        context.fillStyle = "green";
+        context.fill();
+
     }
 }
