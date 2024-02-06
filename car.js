@@ -17,7 +17,6 @@ class Car {
     update() {
         this.#changeSpeed();
 
-        this.#changeAngle();
 
         //if car is moving
         if (this.speed !== 0) {
@@ -27,6 +26,10 @@ class Car {
             //slow down by friction
             this.#includeFriction();
             
+            const flip = this.speed > 0 ? 1 : -1
+
+            this.#changeAngle(flip);
+
         }
 
         this.#moveCar();
@@ -49,12 +52,12 @@ class Car {
         }
     }
 
-    #changeAngle() {
+    #changeAngle(flip = 1) {
         if (this.controls.left) {
-            this.angle += 0.03;
+            this.angle += 0.03 * flip;
         }
         if (this.controls.right) {
-            this.angle -= 0.03;
+            this.angle -= 0.03 * flip;
         }
     }
 
