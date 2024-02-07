@@ -74,10 +74,6 @@ class Car {
     }
 
     #includeFriction() {
-        //stop car if speed is less than friciton
-        if (Math.abs(this.speed) < this.friction) {
-            this.speed = 0;
-        }
 
         if (this.speed > 0) {
             this.speed -= this.friction;
@@ -85,6 +81,10 @@ class Car {
 
         if (this.speed < 0) {
             this.speed += this.friction;
+        }
+        //stop car if speed is less than friciton
+        if (Math.abs(this.speed) < this.friction) {
+            this.speed = 0;
         }
     }
 
