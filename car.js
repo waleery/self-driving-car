@@ -89,6 +89,8 @@ class Car {
     }
 
     draw(context) {
+        //if we change canvas height on each frame, we dont need to save context
+        //context.save()
 
         //center car
         context.translate(this.x, this.y);
@@ -119,5 +121,6 @@ class Car {
         context.fillStyle = "green";
         context.fill();
 
+        //context.restore()
     }
 }
