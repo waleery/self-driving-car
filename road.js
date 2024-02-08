@@ -18,9 +18,9 @@ class Road {
 
     getLaneCenter(laneIndex) {
         const laneWidth = this.width / this.laneCount;
-        
-        //    start road + (   how many lines  ) + ( to center on line)
-        return this.left + laneIndex * laneWidth + laneWidth/2;
+
+        //    start road + (               which lane                      ) + ( to center on lane)
+        return this.left + Math.min(laneIndex, this.laneCount-1) * laneWidth + laneWidth/2;
     }
 
     draw(context) {
