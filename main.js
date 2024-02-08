@@ -3,8 +3,9 @@ canvas.width = 200;
 
 const context = canvas.getContext("2d")
 
+const road = new Road(canvas.width/2, canvas.width*0.95)
 const car = new Car(100, 500, 30, 50)
-car.draw(context)
+
 
 animate()
 function animate() {
@@ -14,6 +15,7 @@ function animate() {
     //context.clearRect(0,0, canvas.width, window.innerHeight)
     
     car.update()
+    road.draw(context)
     car.draw(context)
     requestAnimationFrame(animate)
 }
