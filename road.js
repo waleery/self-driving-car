@@ -1,9 +1,12 @@
 class Road {
     constructor(x, width, laneCount = 3) {
+        //center of the road
         this.x = x;
+
         this.width = width;
         this.laneCount = laneCount;
-
+    
+        //where road start and end
         this.left = x - width / 2;
         this.right = x + width / 2;
 
@@ -11,6 +14,13 @@ class Road {
         const infinity = 1000000;
         this.top = -infinity;
         this.bottom = infinity;
+    }
+
+    getLaneCenter(laneIndex) {
+        const laneWidth = this.width / this.laneCount;
+        
+        //    start road + (   how many lines  ) + ( to center on line)
+        return this.left + laneIndex * laneWidth + laneWidth/2;
     }
 
     draw(context) {
@@ -25,10 +35,10 @@ class Road {
                 i / this.laneCount
             );
 
-            if(i>0 && i< this.laneCount){
-                context.setLineDash([30, 25])
-            }else{
-                context.setLineDash([])
+            if (i > 0 && i < this.laneCount) {
+                context.setLineDash([30, 25]);
+            } else {
+                context.setLineDash([]);
             }
 
             context.beginPath();
