@@ -8,25 +8,27 @@ class Road {
         this.right = x + width / 2;
 
         //if we draw with js infinity, werid thing happens
-        const infinity = 1000000
-        this.top = -infinity
-        this.bottom = infinity
+        const infinity = 1000000;
+        this.top = -infinity;
+        this.bottom = infinity;
     }
 
-    draw(context){
-        context.lineWidth = 5
-        context.strokeStyle = "white"
+    draw(context) {
+        context.lineWidth = 5;
+        context.strokeStyle = "white";
 
-        //line on the left side
-        context.beginPath()
-        context.moveTo(this.left, this.top)
-        context.lineTo(this.left, this.bottom)
-        context.stroke()
+        //drawing lines on the road
+        for (let i = 0; i <= this.laneCount; i++) {
+            const x = lineralInterpolation(
+                this.left,
+                this.right,
+                i / this.laneCount
+            );
 
-        //line on the right side
-        context.beginPath()
-        context.moveTo(this.right, this.top)
-        context.lineTo(this.right, this.bottom)
-        context.stroke()
+            context.beginPath();
+            context.moveTo(x, this.top);
+            context.lineTo(x, this.bottom);
+            context.stroke();
+        }
     }
 }
