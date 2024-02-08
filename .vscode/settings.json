@@ -2,6 +2,7 @@
     "conventionalCommits.scopes": [
         "canvas",
         "car",
-        "controls"
+        "controls",
+        "road"
     ]
 }
