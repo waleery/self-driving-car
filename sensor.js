@@ -33,5 +33,13 @@ class Sensor {
             context.lineTo(this.rays[i][1].x, this.rays[i][1].y);
             context.stroke();
         }
+        //DOT
+        context.beginPath();
+
+        // Draws a circle centered at (x, y) with radius 4
+        context.arc(this.rays[0][0].x, this.rays[0][0].y, 4, 0, 2 * Math.PI);
+
+        context.fillStyle = "green";
+        context.fill();
     }
 }

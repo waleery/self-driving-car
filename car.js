@@ -114,16 +114,6 @@ class Car {
         );
         context.fill();
 
-
-        //DOT
-        context.beginPath();
-
-        // Draws a circle centered at (x, y) with radius 3
-        context.arc(0,0, 3, 0, 2 * Math.PI);
-        
-        context.fillStyle = "green";
-        context.fill();
-
         context.restore()
 
         this.sensor.draw(context)
