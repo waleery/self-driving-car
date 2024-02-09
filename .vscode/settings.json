@@ -3,6 +3,7 @@
         "canvas",
         "car",
         "controls",
-        "road"
+        "road",
+        "sensor"
     ]
 }

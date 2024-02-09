@@ -11,6 +11,7 @@ class Car {
         this.maxSpeed = 3;
         this.friction = 0.05;
 
+        this.sensor = new Sensor(this)
         this.angle = 0;
     }
 
@@ -33,6 +34,8 @@ class Car {
         }
 
         this.#moveCar();
+
+        this.sensor.update()
     }
 
     #moveCar() {
@@ -90,7 +93,7 @@ class Car {
 
     draw(context) {
         //if we change canvas height on each frame, we dont need to save context
-        //context.save()
+        context.save()
 
         //center car
         context.translate(this.x, this.y);
@@ -121,6 +124,8 @@ class Car {
         context.fillStyle = "green";
         context.fill();
 
-        //context.restore()
+        context.restore()
+
+        this.sensor.draw(context)
     }
 }
