@@ -58,11 +58,23 @@ class Sensor {
     }
     draw(context) {
         for (let i = 0; i < this.rayCount; i++) {
+            let end = this.rays[i][1]
+            if(this.readings[i]){
+                end = this.readings[i]
+            }
+
             context.beginPath();
             context.lineWidth = 2;
             context.strokeStyle = "yellow";
             context.moveTo(this.rays[i][0].x, this.rays[i][0].y);
-            context.lineTo(this.rays[i][1].x, this.rays[i][1].y);
+            context.lineTo(end.x, end.y);
+            context.stroke();
+
+            context.beginPath();
+            context.lineWidth = 2;
+            context.strokeStyle = "black";
+            context.moveTo(this.rays[i][1].x, this.rays[i][1].y);
+            context.lineTo(end.x, end.y);
             context.stroke();
         }
         //DOT
