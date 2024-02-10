@@ -6,9 +6,36 @@ class Sensor {
         this.raySpread = Math.PI / 4; //45
 
         this.rays = [];
+        this.readings=[]
     }
-    update() {
+    update(roadBorders) {
         this.#castRays();
+        this.readings=[]
+        this.rays.forEach(ray => {
+            this.readings.push(
+                this.#getReading(ray, roadBorders)
+            )
+        });
+    }
+
+    #getReading(ray, roadBorders){
+        let touches = []
+        for(let i = 0; i<roadBorders; i++){
+            const touch = getIntersection(
+                ray[0], ray[1], roadBorders[i][0], roadBorders[i][1]
+            )
+            if(touch){
+                touches.push(touch)
+            }
+        }
+
+        if(touches.length == 0){
+            return null
+        } else {
+            const offsets = touches.map(e => e.offset)
+            const minOffset = Math.min(...offsets)
+            return touches.find(e => e.offset == minOffset)
+        }
     }
     
     #castRays() {

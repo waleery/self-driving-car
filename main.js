@@ -12,7 +12,7 @@ function animate() {
     canvas.height = window.innerHeight;
     //context.clearRect(0,0, canvas.width, window.innerHeight)
 
-    car.update();
+    car.update(road.borders);
 
     //save context, because on each frame translate would be added
     context.save();

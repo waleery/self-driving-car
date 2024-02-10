@@ -15,7 +15,7 @@ class Car {
         this.angle = 0;
     }
 
-    update() {
+    update(roadBorders) {
         this.#changeSpeed();
 
 
@@ -35,7 +35,7 @@ class Car {
 
         this.#moveCar();
 
-        this.sensor.update()
+        this.sensor.update(roadBorders)
     }
 
     #moveCar() {
