@@ -20,7 +20,7 @@ class Sensor {
 
     #getReading(ray, roadBorders){
         let touches = []
-        for(let i = 0; i<roadBorders; i++){
+        for(let i = 0; i<roadBorders.length; i++){
             const touch = getIntersection(
                 ray[0], ray[1], roadBorders[i][0], roadBorders[i][1]
             )
@@ -70,6 +70,7 @@ class Sensor {
             context.lineTo(end.x, end.y);
             context.stroke();
 
+            //ray behind 'object'
             context.beginPath();
             context.lineWidth = 2;
             context.strokeStyle = "black";
