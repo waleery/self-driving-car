@@ -10,6 +10,7 @@ class Car {
         this.acceleration = 0.2;
         this.maxSpeed = 3;
         this.friction = 0.05;
+        this.damaged = false
 
         this.sensor = new Sensor(this);
         this.angle = 0;
@@ -33,9 +34,18 @@ class Car {
 
         this.#moveCar();
         this.polygon = this.#createPolygon()
+        this.damaged = this.#assessDamage(roadBorders)
         this.sensor.update(roadBorders);
     }
 
+    #assessDamage(roadBorders){
+        for(let i = 0; i<roadBorders.length; i++){
+            if(polysIntersect(this.polygon, roadBorders[i])){
+                return true
+            }
+        }
+        return false
+    }
     #createPolygon() {
         const points = [];
 
@@ -118,6 +128,11 @@ class Car {
     }
 
     draw(context) {
+        if(this.damaged){
+            context.fillStyle="gray"
+        } else {
+            context.fillStyle = "black"
+        }
         context.beginPath()
         context.moveTo(this.polygon[0].x, this.polygon[0].y)
 
