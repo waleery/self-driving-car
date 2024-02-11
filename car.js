@@ -11,13 +11,12 @@ class Car {
         this.maxSpeed = 3;
         this.friction = 0.05;
 
-        this.sensor = new Sensor(this)
+        this.sensor = new Sensor(this);
         this.angle = 0;
     }
 
     update(roadBorders) {
         this.#changeSpeed();
-
 
         //if car is moving
         if (this.speed !== 0) {
@@ -26,16 +25,44 @@ class Car {
 
             //slow down by friction
             this.#includeFriction();
-            
-            const flip = this.speed > 0 ? 1 : -1
+
+            const flip = this.speed > 0 ? 1 : -1;
 
             this.#changeAngle(flip);
-
         }
 
         this.#moveCar();
+        this.polygon = this.#createPolygon()
+        this.sensor.update(roadBorders);
+    }
 
-        this.sensor.update(roadBorders)
+    #createPolygon() {
+        const points = [];
+
+        //diagonal of a rectangle divided by 2
+        const rad = Math.hypot(this.width, this.height) / 2;
+
+        //angle knowing the width and the height
+        const alpha = Math.atan2(this.width, this.height);
+    
+        //top right point
+        points.push({
+            x: this.x - Math.sin(this.angle - alpha) * rad,
+            y: this.y - Math.cos(this.angle - alpha) * rad,
+        });
+        points.push({
+            x: this.x - Math.sin(this.angle + alpha) * rad,
+            y: this.y - Math.cos(this.angle + alpha) * rad,
+        });
+        points.push({
+            x: this.x - Math.sin(Math.PI + this.angle - alpha) * rad,
+            y: this.y - Math.cos(Math.PI + this.angle - alpha) * rad,
+        });
+        points.push({
+            x: this.x - Math.sin(Math.PI + this.angle + alpha) * rad,
+            y: this.y - Math.cos(Math.PI + this.angle + alpha) * rad,
+        });
+        return points
     }
 
     #moveCar() {
@@ -77,7 +104,6 @@ class Car {
     }
 
     #includeFriction() {
-
         if (this.speed > 0) {
             this.speed -= this.friction;
         }
@@ -92,30 +118,16 @@ class Car {
     }
 
     draw(context) {
-        //if we change canvas height on each frame, we dont need to save context
-        context.save()
+        context.beginPath()
+        context.moveTo(this.polygon[0].x, this.polygon[0].y)
 
-        //center car
-        context.translate(this.x, this.y);
+        for(let i = 1; i<this.polygon.length;i++){
+            context.lineTo(this.polygon[i].x, this.polygon[i].y)
+        }
+        context.fill()
 
-        //rotate car
-        context.rotate(-this.angle);
+        
 
-        context.beginPath();
-
-        //CAR
-
-        // The rectangle is centered at (x, y) and has the size (width, height)
-        context.rect(
-            -this.width / 2,
-            -this.height / 2,
-            this.width,
-            this.height
-        );
-        context.fill();
-
-        context.restore()
-
-        this.sensor.draw(context)
+        this.sensor.draw(context);
     }
 }
