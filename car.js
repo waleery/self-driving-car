@@ -17,21 +17,7 @@ class Car {
     }
 
     update(roadBorders) {
-        this.#changeSpeed();
-
-        //if car is moving
-        if (this.speed !== 0) {
-            //limit max speed
-            this.#limitSpeed();
-
-            //slow down by friction
-            this.#includeFriction();
-
-            const flip = this.speed > 0 ? 1 : -1;
-
-            this.#changeAngle(flip);
-        }
-
+        
         this.#moveCar();
         this.polygon = this.#createPolygon()
         this.damaged = this.#assessDamage(roadBorders)
@@ -76,6 +62,21 @@ class Car {
     }
 
     #moveCar() {
+        this.#changeSpeed();
+
+        //if car is moving
+        if (this.speed !== 0) {
+            //limit max speed
+            this.#limitSpeed();
+
+            //slow down by friction
+            this.#includeFriction();
+
+            const flip = this.speed > 0 ? 1 : -1;
+
+            this.#changeAngle(flip);
+        }
+
         this.x -= Math.sin(this.angle) * this.speed;
         this.y -= Math.cos(this.angle) * this.speed;
     }
