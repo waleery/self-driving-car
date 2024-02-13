@@ -8,12 +8,12 @@ class Sensor {
         this.rays = [];
         this.readings=[]
     }
-    update(roadBorders) {
+    update(roadBorders, traffic) {
         this.#castRays();
         this.readings=[]
         this.rays.forEach(ray => {
             this.readings.push(
-                this.#getReading(ray, roadBorders)
+                this.#getReading(ray, roadBorders, traffic)
             )
         });
     }
@@ -26,6 +26,16 @@ class Sensor {
             )
             if(touch){
                 touches.push(touch)
+            }
+        }
+        for(let i = 0; i<traffic.length; i++){
+            const polly = traffic[i].polygon
+            for(let j = 0; j<polly.length; j++){
+                const value = getIntersection(ray[0], ray[1], polly[j], polly[(j+1)%polly.length])
+            
+                if(value){
+                    touches.push(value)
+                }
             }
         }
 

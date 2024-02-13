@@ -16,10 +16,10 @@ function animate() {
     //context.clearRect(0,0, canvas.width, window.innerHeight)
 
     for(let i = 0; i<traffic.length; i++){
-        traffic[i].update(road.borders)
+        traffic[i].update(road.borders,[])
     }
 
-    car.update(road.borders);
+    car.update(road.borders, traffic);
 
     //save context, because on each frame translate would be added
     context.save();
