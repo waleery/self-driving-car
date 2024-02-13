@@ -12,7 +12,10 @@ class Car {
         this.friction = 0.05;
         this.damaged = false
 
-        this.sensor = new Sensor(this);
+        if(controlType !== "DUMMY"){
+            this.sensor = new Sensor(this);
+
+        }
         this.angle = 0;
     }
 
@@ -22,7 +25,9 @@ class Car {
             this.polygon = this.#createPolygon()
             this.damaged = this.#assessDamage(roadBorders)
         }
-        this.sensor.update(roadBorders);
+        if(this.sensor){ 
+            this.sensor.update(roadBorders);
+        }
     }
 
     #assessDamage(roadBorders){
@@ -144,7 +149,8 @@ class Car {
         context.fill()
 
         
-
-        this.sensor.draw(context);
+        if(this.sensor){
+            this.sensor.draw(context);
+        }
     }
 }
