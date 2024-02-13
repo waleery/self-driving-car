@@ -1,10 +1,10 @@
 class Car {
-    constructor(x, y, width, height) {
+    constructor(x, y, width, height, controlType) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.controls = new Controls();
+        this.controls = new Controls(controlType);
 
         this.speed = 0;
         this.acceleration = 0.2;
