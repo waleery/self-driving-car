@@ -139,11 +139,11 @@ class Car {
         }
     }
 
-    draw(context) {
+    draw(context, color) {
         if(this.damaged){
             context.fillStyle="gray"
         } else {
-            context.fillStyle = "black"
+            context.fillStyle = color
         }
         context.beginPath()
         context.moveTo(this.polygon[0].x, this.polygon[0].y)

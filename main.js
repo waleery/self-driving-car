@@ -29,9 +29,9 @@ function animate() {
     
     road.draw(context);
     for(let i = 0;i<traffic.length;i++){
-        traffic[i].draw(context)
+        traffic[i].draw(context, "red")
     }
-    car.draw(context);
+    car.draw(context, "blue");
     
     //restore context to state before translate
     context.restore();
