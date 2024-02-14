@@ -4,6 +4,7 @@
         "car",
         "controls",
         "road",
-        "sensor"
+        "sensor",
+        "network"
     ]
 }
