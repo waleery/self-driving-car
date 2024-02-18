@@ -5,6 +5,7 @@
         "controls",
         "road",
         "sensor",
-        "network"
+        "network",
+        "networkCanvas"
     ]
 }
