@@ -41,6 +41,6 @@ function animate() {
     //restore carContext to state before translate
     carContext.restore();
    
-   
+    Visualizer.drawNetwork(networkContext, car.brain)
     requestAnimationFrame(animate);
 }
