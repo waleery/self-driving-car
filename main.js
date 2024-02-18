@@ -1,9 +1,9 @@
-const canvas = document.getElementById("myCanvas");
-canvas.width = 200;
+const carCanvas = document.getElementById("carCanvas");
+carCanvas.width = 200;
 
-const context = canvas.getContext("2d");
+const context = carCanvas.getContext("2d");
 
-const road = new Road(canvas.width / 2, canvas.width * 0.9);
+const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 const car = new Car(road.getLaneCenter(1), 500, 30, 50, "AI");
 const traffic = [
     new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY",2)
@@ -11,9 +11,9 @@ const traffic = [
 
 animate();
 function animate() {
-    //if we change canvas height on each frame, we dont need to clear canvas
-    canvas.height = window.innerHeight;
-    //context.clearRect(0,0, canvas.width, window.innerHeight)
+    //if we change carCanvas height on each frame, we dont need to clear carCanvas
+    carCanvas.height = window.innerHeight;
+    //context.clearRect(0,0, carCanvas.width, window.innerHeight)
 
     for(let i = 0; i<traffic.length; i++){
         traffic[i].update(road.borders,[])
@@ -25,7 +25,7 @@ function animate() {
     context.save();
 
     //to make illusion that camera is above the car
-    context.translate(0, -car.y + canvas.height *0.75);
+    context.translate(0, -car.y + carCanvas.height *0.75);
     
     road.draw(context);
     for(let i = 0;i<traffic.length;i++){
