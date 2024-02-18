@@ -1,7 +1,7 @@
 const carCanvas = document.getElementById("carCanvas");
 carCanvas.width = 200;
 
-const context = carCanvas.getContext("2d");
+const carContext = carCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 const car = new Car(road.getLaneCenter(1), 500, 30, 50, "AI");
@@ -13,7 +13,7 @@ animate();
 function animate() {
     //if we change carCanvas height on each frame, we dont need to clear carCanvas
     carCanvas.height = window.innerHeight;
-    //context.clearRect(0,0, carCanvas.width, window.innerHeight)
+    //carContext.clearRect(0,0, carCanvas.width, window.innerHeight)
 
     for(let i = 0; i<traffic.length; i++){
         traffic[i].update(road.borders,[])
@@ -21,20 +21,20 @@ function animate() {
 
     car.update(road.borders, traffic);
 
-    //save context, because on each frame translate would be added
-    context.save();
+    //save carContext, because on each frame translate would be added
+    carContext.save();
 
     //to make illusion that camera is above the car
-    context.translate(0, -car.y + carCanvas.height *0.75);
+    carContext.translate(0, -car.y + carCanvas.height *0.75);
     
-    road.draw(context);
+    road.draw(carContext);
     for(let i = 0;i<traffic.length;i++){
-        traffic[i].draw(context, "red")
+        traffic[i].draw(carContext, "red")
     }
-    car.draw(context, "blue");
+    car.draw(carContext, "blue");
     
-    //restore context to state before translate
-    context.restore();
+    //restore carContext to state before translate
+    carContext.restore();
    
    
     requestAnimationFrame(animate);
