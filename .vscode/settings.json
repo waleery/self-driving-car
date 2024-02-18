@@ -6,6 +6,7 @@
         "road",
         "sensor",
         "network",
-        "networkCanvas"
+        "networkCanvas",
+        "visualizer"
     ]
 }
