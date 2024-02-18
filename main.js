@@ -1,7 +1,11 @@
 const carCanvas = document.getElementById("carCanvas");
 carCanvas.width = 200;
 
+const networkCanvas = document.getElementById("networkCanvas");
+networkCanvas.width = 300;
+
 const carContext = carCanvas.getContext("2d");
+const networkContext = networkCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 const car = new Car(road.getLaneCenter(1), 500, 30, 50, "AI");
@@ -13,6 +17,7 @@ animate();
 function animate() {
     //if we change carCanvas height on each frame, we dont need to clear carCanvas
     carCanvas.height = window.innerHeight;
+    networkCanvas.height = window.innerHeight;
     //carContext.clearRect(0,0, carCanvas.width, window.innerHeight)
 
     for(let i = 0; i<traffic.length; i++){
