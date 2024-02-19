@@ -23,28 +23,48 @@ class Visualizer {
         const { inputs, outputs } = level;
 
         const nodeRadius = 20;
+
+        //'bottom' nodes
         for (let i = 0; i < inputs.length; i++) {
-            const x = lineralInterpolation(
-                left,
-                right,
-                inputs.length == 1 ? 0.5 : i / (inputs.length - 1)
-            );
+            const x = Visualizer.#getNodeX(inputs, i, left, right)
             context.beginPath();
             context.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
             context.fillStyle = "white";
             context.fill();
         }
-
+        //'top' nodes
         for (let i = 0; i < outputs.length; i++) {
-            const x = lineralInterpolation(
-                left,
-                right,
-                outputs.length == 1 ? 0.5 : i / (outputs.length - 1)
-            );
+            const x = Visualizer.#getNodeX(outputs, i, left, right)
             context.beginPath();
             context.arc(x, top, nodeRadius, 0, Math.PI * 2);
             context.fillStyle = "white";
             context.fill();
         }
+
+        //connections between 'nodes'
+        for (let i = 0; i < inputs.length; i++) {
+            for (let j = 0; j < outputs.length; j++) {
+                context.beginPath();
+                context.moveTo(
+                    Visualizer.#getNodeX(inputs, i, left, right),
+                    bottom
+                );
+                context.lineTo(
+                    Visualizer.#getNodeX(outputs, j, left, right),
+                    top
+                )
+                context.lineWidth=2
+                context.strokeStyle="orange"
+                context.stroke()
+            }
+        }
+    }
+    //helper method
+    static #getNodeX(nodes, index, left, right) {
+        return lineralInterpolation(
+            left,
+            right,
+            nodes.length == 1 ? 0.5 : index / (nodes.length - 1)
+        );
     }
 }
