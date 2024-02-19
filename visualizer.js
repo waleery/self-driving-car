@@ -24,24 +24,8 @@ class Visualizer {
 
         const nodeRadius = 20;
 
-        //'bottom' nodes
-        for (let i = 0; i < inputs.length; i++) {
-            const x = Visualizer.#getNodeX(inputs, i, left, right)
-            context.beginPath();
-            context.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
-            context.fillStyle = "white";
-            context.fill();
-        }
-        //'top' nodes
-        for (let i = 0; i < outputs.length; i++) {
-            const x = Visualizer.#getNodeX(outputs, i, left, right)
-            context.beginPath();
-            context.arc(x, top, nodeRadius, 0, Math.PI * 2);
-            context.fillStyle = "white";
-            context.fill();
-        }
-
-        //connections between 'nodes'
+        //draw connection first -> nodes are above conenctions
+        //connections between nodes
         for (let i = 0; i < inputs.length; i++) {
             for (let j = 0; j < outputs.length; j++) {
                 context.beginPath();
@@ -52,11 +36,28 @@ class Visualizer {
                 context.lineTo(
                     Visualizer.#getNodeX(outputs, j, left, right),
                     top
-                )
-                context.lineWidth=2
-                context.strokeStyle="orange"
-                context.stroke()
+                );
+                context.lineWidth = 2;
+                context.strokeStyle = "orange";
+                context.stroke();
             }
+        }
+
+        //'bottom' nodes
+        for (let i = 0; i < inputs.length; i++) {
+            const x = Visualizer.#getNodeX(inputs, i, left, right);
+            context.beginPath();
+            context.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
+            context.fillStyle = "white";
+            context.fill();
+        }
+        //'top' nodes
+        for (let i = 0; i < outputs.length; i++) {
+            const x = Visualizer.#getNodeX(outputs, i, left, right);
+            context.beginPath();
+            context.arc(x, top, nodeRadius, 0, Math.PI * 2);
+            context.fillStyle = "white";
+            context.fill();
         }
     }
     //helper method
