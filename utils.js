@@ -73,3 +73,21 @@ function polysIntersect(poly1, poly2){
     }
     return false
 }
+
+function getRGBA(value){
+    // -1 <= value <= 1
+    //if closer to 0, then more transparency
+    const alpha = Math.abs(value);
+
+    //yellow for positive values 
+    //-> to make yellow, we need red and green
+    const R = value < 0 ? 0 : 255;
+    const G = R;
+    
+    //blue for negative values
+    const B = value > 0 ? 0 : 255;
+
+    return "rgba(" + R + "," + G + "," + B + "," + alpha + ")";
+
+    
+}
