@@ -20,17 +20,31 @@ class Visualizer {
         const right = left + width;
         const bottom = top + height;
 
+        const { inputs, outputs } = level;
+
         const nodeRadius = 20;
-        for (let i = 0; i < level.inputs.length; i++) {
+        for (let i = 0; i < inputs.length; i++) {
             const x = lineralInterpolation(
                 left,
                 right,
-                (level.inputs.length == 1 ? 0.5 : i / (level.inputs.length - 1))
+                inputs.length == 1 ? 0.5 : i / (inputs.length - 1)
             );
-            context.beginPath()
-            context.arc(x, bottom, nodeRadius, 0, Math.PI*2)
-            context.fillStyle = "white"
-            context.fill()
+            context.beginPath();
+            context.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
+            context.fillStyle = "white";
+            context.fill();
+        }
+
+        for (let i = 0; i < outputs.length; i++) {
+            const x = lineralInterpolation(
+                left,
+                right,
+                outputs.length == 1 ? 0.5 : i / (outputs.length - 1)
+            );
+            context.beginPath();
+            context.arc(x, top, nodeRadius, 0, Math.PI * 2);
+            context.fillStyle = "white";
+            context.fill();
         }
     }
 }
