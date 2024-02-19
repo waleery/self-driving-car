@@ -20,7 +20,7 @@ class Visualizer {
         const right = left + width;
         const bottom = top + height;
 
-        const { inputs, outputs } = level;
+        const { inputs, outputs, weights } = level;
 
         const nodeRadius = 20;
 
@@ -37,8 +37,24 @@ class Visualizer {
                     Visualizer.#getNodeX(outputs, j, left, right),
                     top
                 );
-                context.lineWidth = 2;
-                context.strokeStyle = "orange";
+                context.lineWidth = 3;
+
+                const value = weights[i][j];
+
+                // -1 <= value <= 1
+                //if closer to 0, then more transparency
+                const alpha = Math.abs(value);
+
+                //yellow for positive values 
+                //-> to make yellow, we need red and green
+                const R = value < 0 ? 0 : 255;
+                const G = R;
+                
+                //blue for negative values
+                const B = value > 0 ? 0 : 255;
+
+                context.strokeStyle =
+                    "rgba(" + R + "," + G + "," + B + "," + alpha + ")";
                 context.stroke();
             }
         }
