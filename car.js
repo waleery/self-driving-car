@@ -31,13 +31,16 @@ class Car {
         }
         if(this.sensor){ 
             this.sensor.update(roadBorders, traffic);
+
             const offsets = this.sensor.readings.map(
                 s=> s == null ? 0 : 1 - s.offset
             )
+
             const outputs = NeuralNetwork.feedForward(offsets, this.brain)
 
             console.log(outputs)
 
+            //use neuralNetwork output to move the car
             if(this.useBrain){
               this.controls.forward = outputs[0]  
               this.controls.left = outputs[1]  
