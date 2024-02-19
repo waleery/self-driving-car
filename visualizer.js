@@ -20,7 +20,7 @@ class Visualizer {
         const right = left + width;
         const bottom = top + height;
 
-        const { inputs, outputs, weights } = level;
+        const { inputs, outputs, weights, biases } = level;
 
         const nodeRadius = 20;
 
@@ -37,24 +37,9 @@ class Visualizer {
                     Visualizer.#getNodeX(outputs, j, left, right),
                     top
                 );
-                context.lineWidth = 3;
+                context.lineWidth = 2;
 
-                const value = weights[i][j];
-
-                // -1 <= value <= 1
-                //if closer to 0, then more transparency
-                const alpha = Math.abs(value);
-
-                //yellow for positive values 
-                //-> to make yellow, we need red and green
-                const R = value < 0 ? 0 : 255;
-                const G = R;
-                
-                //blue for negative values
-                const B = value > 0 ? 0 : 255;
-
-                context.strokeStyle =
-                    "rgba(" + R + "," + G + "," + B + "," + alpha + ")";
+                context.strokeStyle = getRGBA(weights[i][j])
                 context.stroke();
             }
         }
@@ -63,7 +48,7 @@ class Visualizer {
         for (let i = 0; i < inputs.length; i++) {
             const x = Visualizer.#getNodeX(inputs, i, left, right);
             context.beginPath();
-            context.arc(x, bottom, nodeRadius, 0, Math.PI * 2);
+            context.arc(x, bottom, nodeRadius*0.7, 0, Math.PI * 2);
             context.fillStyle = "white";
             context.fill();
         }
@@ -71,9 +56,18 @@ class Visualizer {
         for (let i = 0; i < outputs.length; i++) {
             const x = Visualizer.#getNodeX(outputs, i, left, right);
             context.beginPath();
-            context.arc(x, top, nodeRadius, 0, Math.PI * 2);
+            context.arc(x, top, nodeRadius*0.7, 0, Math.PI * 2);
             context.fillStyle = "white";
             context.fill();
+
+            context.beginPath()
+            context.lineWidth = 2
+            context.arc(x, top, nodeRadius,0, Math.PI*2)
+            context.strokeStyle = getRGBA(biases[i])
+            context.setLineDash([3,3])
+            context.stroke()
+            context.setLineDash([])
+
         }
     }
     //helper method
