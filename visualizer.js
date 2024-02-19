@@ -55,6 +55,13 @@ class Visualizer {
         //'top' nodes
         for (let i = 0; i < outputs.length; i++) {
             const x = Visualizer.#getNodeX(outputs, i, left, right);
+
+            //first draw black circle to avoid intersecion biases indicator and node connections
+            context.beginPath();
+            context.arc(x, top, nodeRadius, 0, Math.PI * 2);
+            context.fillStyle = "black";
+            context.fill();
+
             context.beginPath();
             context.arc(x, top, nodeRadius*0.7, 0, Math.PI * 2);
             context.fillStyle = "white";
