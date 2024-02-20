@@ -49,7 +49,7 @@ class Visualizer {
             const x = Visualizer.#getNodeX(inputs, i, left, right);
             context.beginPath();
             context.arc(x, bottom, nodeRadius*0.7, 0, Math.PI * 2);
-            context.fillStyle = "white";
+            context.fillStyle = getRGBA(inputs[i]);
             context.fill();
         }
         //'top' nodes
@@ -64,7 +64,7 @@ class Visualizer {
 
             context.beginPath();
             context.arc(x, top, nodeRadius*0.7, 0, Math.PI * 2);
-            context.fillStyle = "white";
+            context.fillStyle = getRGBA(outputs[i]);
             context.fill();
 
             context.beginPath()
