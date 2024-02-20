@@ -6,14 +6,18 @@ class Visualizer {
         const width = context.canvas.width - margin * 2;
         const height = context.canvas.height - margin * 2;
 
-        Visualizer.drawLevel(
-            context,
-            network.levels[0],
-            left,
-            top,
-            width,
-            height
-        );
+        const levelHeight = height/network.levels.length
+
+        for(let i = 0; i< network.levels.length; i++){
+            const levelTop = top + 
+                lineralInterpolation(
+                    height - levelHeight,
+                    0,
+                    network.levels.length == 1 ? 0.5 : i/(network.levels.length-1)
+                )
+            
+                Visualizer.drawLevel(context, network.levels[i], left, levelTop, width, levelHeight)
+        }   
     }
 
     static drawLevel(context, level, left, top, width, height) {
