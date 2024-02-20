@@ -8,13 +8,13 @@ const carContext = carCanvas.getContext("2d");
 const networkContext = networkCanvas.getContext("2d");
 
 const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
-const car = new Car(road.getLaneCenter(1), 500, 30, 50, "AI");
+const car = new Car(road.getLaneCenter(1), 500, 30, 50, "KEYS");
 const traffic = [
     new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY",2)
 ]
 
 animate();
-function animate() {
+function animate(time) {
     //if we change carCanvas height on each frame, we dont need to clear carCanvas
     carCanvas.height = window.innerHeight;
     networkCanvas.height = window.innerHeight;
@@ -40,7 +40,9 @@ function animate() {
     
     //restore carContext to state before translate
     carContext.restore();
-   
+
+    //animate line between nodes
+    networkContext.lineDashOffset= -time/50 // '-' to change direction of movement
     Visualizer.drawNetwork(networkContext, car.brain)
     requestAnimationFrame(animate);
 }

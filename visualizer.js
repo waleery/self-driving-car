@@ -18,6 +18,7 @@ class Visualizer {
                         ? 0.5
                         : i / (network.levels.length - 1)
                 );
+                context.setLineDash([7, 3]);
 
             Visualizer.drawLevel(
                 context,
@@ -40,6 +41,7 @@ class Visualizer {
         const nodeRadius = 20;
 
         //draw connection first -> nodes are above conenctions
+
         //connections between nodes
         for (let i = 0; i < inputs.length; i++) {
             for (let j = 0; j < outputs.length; j++) {
@@ -83,7 +85,7 @@ class Visualizer {
             context.fill();
 
             context.beginPath();
-            context.lineWidth = 2;
+            context.lineWidth = 3;
             context.arc(x, top, nodeRadius, 0, Math.PI * 2);
             context.strokeStyle = getRGBA(biases[i]);
             context.setLineDash([3, 3]);
