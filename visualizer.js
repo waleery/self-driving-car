@@ -8,7 +8,7 @@ class Visualizer {
 
         const levelHeight = height/network.levels.length
 
-        for(let i = 0; i< network.levels.length; i++){
+        for(let i = network.levels.length - 1; i >=0 ; i--){
             const levelTop = top + 
                 lineralInterpolation(
                     height - levelHeight,
