@@ -68,10 +68,11 @@ function animate(time) {
     for(let i = 0;i<cars.length;i++){
         cars[i].draw(carContext, "blue")
     }
+
     //restore cars opacity
     carContext.globalAlpha = 1
 
-    //draw
+    //draw best car whith full opacity
     bestCar.draw(carContext, "blue", true)
 
 
@@ -82,5 +83,6 @@ function animate(time) {
     //animate line between nodes
     networkContext.lineDashOffset= -time/50 // '-' to change direction of movement
     Visualizer.drawNetwork(networkContext, bestCar.brain)
+    
     requestAnimationFrame(animate);
 }
