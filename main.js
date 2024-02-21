@@ -58,11 +58,13 @@ function animate(time) {
         traffic[i].draw(carContext, "red")
     }
 
+    carContext.globalAlpha = 0.2
     //draw AI cars
     for(let i = 0;i<cars.length;i++){
         cars[i].draw(carContext, "blue")
     }
-    
+    carContext.globalAlpha = 0.1
+
     
     //restore carContext to state before translate
     carContext.restore();
