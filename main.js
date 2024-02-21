@@ -44,11 +44,15 @@ function animate(time) {
         cars[i].update(road.borders, traffic)
     }
 
+    const bestCar = cars.find(car => car.y===Math.min(
+        ...cars.map(car => car.y)//creating array with only y values and spreading this array
+    ))
+
     //save carContext, because on each frame translate would be added
     carContext.save();
 
     //to make illusion that camera is above the car
-    carContext.translate(0, -cars[0].y + carCanvas.height *0.75);
+    carContext.translate(0, -bestCar.y + carCanvas.height *0.75);
     
     //draw road
     road.draw(carContext);
@@ -68,7 +72,7 @@ function animate(time) {
     carContext.globalAlpha = 1
 
     //draw
-    cars[0].draw(carContext, "blue", true)
+    bestCar.draw(carContext, "blue", true)
 
 
     
@@ -77,6 +81,6 @@ function animate(time) {
 
     //animate line between nodes
     networkContext.lineDashOffset= -time/50 // '-' to change direction of movement
-    Visualizer.drawNetwork(networkContext, cars[0].brain)
+    Visualizer.drawNetwork(networkContext, bestCar.brain)
     requestAnimationFrame(animate);
 }
