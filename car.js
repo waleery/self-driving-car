@@ -159,7 +159,7 @@ class Car {
         }
     }
 
-    draw(context, color) {
+    draw(context, color, drawSensor = false) {
         if(this.damaged){
             context.fillStyle="gray"
         } else {
@@ -174,7 +174,7 @@ class Car {
         context.fill()
 
         
-        if(this.sensor){
+        if(this.sensor && drawSensor){
             this.sensor.draw(context);
         }
     }
