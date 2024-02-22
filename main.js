@@ -13,6 +13,7 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 const N = 100
 const cars = generateCars(N)
+let bestCar=cars[0]
 
 const traffic = [
     new Car(road.getLaneCenter(1), -100, 30, 50, "DUMMY",2)
@@ -26,6 +27,12 @@ function generateCars(N){
         cars.push(new Car(road.getLaneCenter(1), 500, 30, 50, "AI"))
     }
     return cars
+}
+
+function save(){
+    localStorage.setItem("bestBrain",
+        JSON.stringify(bestCar.brain)
+    )
 }
 
 function animate(time) {
@@ -44,7 +51,7 @@ function animate(time) {
         cars[i].update(road.borders, traffic)
     }
 
-    const bestCar = cars.find(car => car.y===Math.min(
+    bestCar = cars.find(car => car.y===Math.min(
         ...cars.map(car => car.y)//creating array with only y values and spreading this array
     ))
 
