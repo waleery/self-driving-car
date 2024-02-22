@@ -2,10 +2,9 @@ class NeuralNetwork {
     constructor(neuronCounts) {
         this.levels = [];
         for (let i = 0; i < neuronCounts.length - 1; i++) {
-        
             this.levels.push(
                 new Level(
-                    neuronCounts[i],    //Level input count
+                    neuronCounts[i], //Level input count
                     neuronCounts[i + 1] //Level output count
                 )
             );
@@ -13,7 +12,6 @@ class NeuralNetwork {
     }
 
     static feedForward(givenInputs, network) {
-
         //we need to generate output form first layer
         let outputs = Level.feedForward(givenInputs, network.levels[0]);
 
@@ -35,6 +33,7 @@ class Level {
         //each output neuron has a bias (value) which it will fire action
         this.biases = new Array(outputCount);
 
+        this.sums = new Array(outputCount);
         this.weights = [];
         for (let i = 0; i < inputCount; i++) {
             //weights for each connection from input to output
@@ -68,6 +67,7 @@ class Level {
             for (let j = 0; j < level.inputs.length; j++) {
                 sum += level.inputs[j] * level.weights[j][i];
             }
+            level.sums[i] = sum;
             if (sum > level.biases[i]) {
                 level.outputs[i] = 1;
             } else {
