@@ -35,6 +35,10 @@ function save(){
     )
 }
 
+function discard(){
+    localStorage.removeItem("bestBrain")
+}
+
 function animate(time) {
     //if we change carCanvas height on each frame, we dont need to clear carCanvas
     carCanvas.height = window.innerHeight;
