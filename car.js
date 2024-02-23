@@ -38,7 +38,6 @@ class Car {
 
             const outputs = NeuralNetwork.feedForward(offsets, this.brain)
 
-            console.log(outputs)
 
             //use neuralNetwork output to move the car
             if(this.useBrain){
