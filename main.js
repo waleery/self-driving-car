@@ -19,6 +19,11 @@ let bestCar=cars[0]
 if(localStorage.getItem("bestBrain")){
     for(let i = 0; i< cars.length; i++){
         cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"))
+
+        //mutate every car except best one
+        if(i !=0 ) {
+            NeuralNetwork.mutate(cars[i].brain, 0.2)
+        }
     }
 }
 
