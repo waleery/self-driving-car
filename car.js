@@ -176,6 +176,10 @@ class Car {
     }
 
     draw(context, drawSensor = false) {
+        if (this.sensor && drawSensor) {
+            this.sensor.draw(context);
+        }
+
         context.save();
         context.translate(this.x, this.y);
         context.rotate(-this.angle);
@@ -201,8 +205,5 @@ class Car {
         );
         context.restore()
 
-        if (this.sensor && drawSensor) {
-            this.sensor.draw(context);
-        }
     }
 }
