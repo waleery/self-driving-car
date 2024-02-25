@@ -11,7 +11,7 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 //const cars = [new Car(road.getLaneCenter(1), 500, 30, 50, "KEYS")];
 
-const N = 300
+const N =100
 const cars = generateCars(N)
 let bestCar=cars[0]
 

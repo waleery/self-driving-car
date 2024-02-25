@@ -179,14 +179,17 @@ class Car {
         context.save();
         context.translate(this.x, this.y);
         context.rotate(-this.angle);
-        context.drawImage(
-            this.mask,
-            -this.width / 2,
-            -this.height / 2,
-            this.width,
-            this.height
-        );
+        if(!this.damaged){
+            context.drawImage(
+                this.mask,
+                -this.width / 2,
+                -this.height / 2,
+                this.width,
+                this.height
+            );
+        }
         
+        //to get reflectors and windows from the png of the car
         context.globalCompositeOperation = "multiply"
 
         context.drawImage(
