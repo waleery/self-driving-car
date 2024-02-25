@@ -11,7 +11,7 @@ const road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 //const cars = [new Car(road.getLaneCenter(1), 500, 30, 50, "KEYS")];
 
-const N = 1500
+const N = 300
 const cars = generateCars(N)
 let bestCar=cars[0]
 
@@ -95,14 +95,14 @@ function animate(time) {
     carContext.globalAlpha = 0.2
     //draw AI cars
     for(let i = 0;i<cars.length;i++){
-        cars[i].draw(carContext, "blue")
+        cars[i].draw(carContext)
     }
 
     //restore cars opacity
     carContext.globalAlpha = 1
 
     //draw best car whith full opacity
-    bestCar.draw(carContext, "blue", true)
+    bestCar.draw(carContext, true)
 
 
     
