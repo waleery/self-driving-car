@@ -91,3 +91,10 @@ function getRGBA(value){
 
     
 }
+
+function getRandomColor(){
+    //get random hue, except the blueish
+    const hue = 290 + Math.random() * 260
+    //                  saturation, light
+    return "hsl(" + hue + ",100%, 60%)"
+}
