@@ -1,5 +1,13 @@
 class Car {
-    constructor(x, y, width, height, controlType, maxSpeed = 3, color = "blue") {
+    constructor(
+        x,
+        y,
+        width,
+        height,
+        controlType,
+        maxSpeed = 3,
+        color = "blue"
+    ) {
         this.x = x;
         this.y = y;
         this.width = width;
@@ -20,25 +28,29 @@ class Car {
         }
         this.angle = 0;
 
-        this.img = new Image();
-        this.img.src = "car.png";
+        this.CarImg = new Image();
+        this.CarImg.src = "car.png";
 
-        this.mask = document.createElement("canvas")
-        this.mask.width = width
-        this.mask.height = height
+        this.mask = document.createElement("canvas");
+        this.mask.width = width;
+        this.mask.height = height;
 
-        const maskContext = this.mask.getContext("2d")
+        const maskContext = this.mask.getContext("2d");
 
-
-        this.img.onload = () => {
-            maskContext.fillStyle = color
-            maskContext.rect(0,0,this.width, this.height)
-            maskContext.fill()
+        this.CarImg.onload = () => {
+            maskContext.fillStyle = color;
+            maskContext.rect(0, 0, this.width, this.height);
+            maskContext.fill();
 
             //draw created canvas only above drawed img (car)
-            maskContext.globalCompositeOperation = "destination-atop"
-            maskContext.drawImage(this.img, 0,0, this.width, this.height)
-        }
+            maskContext.globalCompositeOperation = "destination-atop";
+            maskContext.drawImage(this.CarImg, 0, 0, this.width, this.height);
+
+            //to get reflectors and windows from the png of the car
+            maskContext.globalCompositeOperation = "multiply";
+
+            maskContext.drawImage(this.CarImg, 0, 0, this.width, this.height);
+        };
     }
 
     update(roadBorders, traffic) {
@@ -183,7 +195,7 @@ class Car {
         context.save();
         context.translate(this.x, this.y);
         context.rotate(-this.angle);
-        if(!this.damaged){
+        if (!this.damaged) {
             context.drawImage(
                 this.mask,
                 -this.width / 2,
@@ -191,19 +203,17 @@ class Car {
                 this.width,
                 this.height
             );
+            //draw gray car image
+        } else {
+            context.drawImage(
+                this.CarImg,
+                -this.width / 2,
+                -this.height / 2,
+                this.width,
+                this.height
+            );
         }
-        
-        //to get reflectors and windows from the png of the car
-        context.globalCompositeOperation = "multiply"
 
-        context.drawImage(
-            this.img,
-            -this.width / 2,
-            -this.height / 2,
-            this.width,
-            this.height
-        );
-        context.restore()
-
+        context.restore();
     }
 }
