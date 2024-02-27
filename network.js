@@ -1,6 +1,7 @@
 class NeuralNetwork {
     constructor(neuronCounts) {
         this.levels = [];
+        this.id = Math.random().toString(16).slice(2,10)
         for (let i = 0; i < neuronCounts.length - 1; i++) {
             this.levels.push(
                 new Level(
