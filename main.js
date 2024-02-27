@@ -16,22 +16,29 @@ let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 const N = 100;
 let cars = generateCars(N);
-let traffic =generateTraffic(10);
+let traffic = generateTraffic(10);
 
-getBestBrainFromLocalStorage()
+getBestBrainFromLocalStorage();
 
 let bestCar = cars[0];
 
-function getBestBrainFromLocalStorage(){
+function getBestBrainFromLocalStorage() {
+    const savedBrainValue = document.getElementById("savedBrainValue");
+
     if (localStorage.getItem("bestBrain")) {
         for (let i = 0; i < cars.length; i++) {
-            cars[i].brain = JSON.parse(localStorage.getItem("bestBrain"));
-    
+            const bestBrain = JSON.parse(localStorage.getItem("bestBrain"));
+            cars[i].brain = bestBrain;
+
+            savedBrainValue.textContent = bestBrain.id;
+
             //mutate every car except best one
             if (i != 0) {
                 NeuralNetwork.mutate(cars[i].brain, 0.05);
             }
         }
+    } else {
+        savedBrainValue.textContent = "";
     }
 }
 
@@ -39,15 +46,22 @@ function generateTraffic(n) {
     const traffic = [];
     for (let i = 0; i < n; i++) {
         const lane = Math.floor(Math.random() * 3); // Losuj pas drogowy
-        const position = (-100 * i); // Ustaw pozycję startową (dodawanie przed odejmowaniem)
+        const position = -100 * i; // Ustaw pozycję startową (dodawanie przed odejmowaniem)
         traffic.push(
-            new Car(road.getLaneCenter(lane), position, 30, 50, "DUMMY",2, getRandomColor())
+            new Car(
+                road.getLaneCenter(lane),
+                position,
+                30,
+                50,
+                "DUMMY",
+                2,
+                getRandomColor()
+            )
         );
     }
-    console.log(traffic)
-    return traffic
+    console.log(traffic);
+    return traffic;
 }
-
 
 function generateCars(N) {
     const cars = [];
@@ -60,7 +74,7 @@ function generateCars(N) {
 function resetRun() {
     cars = generateCars(N);
     traffic = generateTraffic(10);
-    getBestBrainFromLocalStorage()
+    getBestBrainFromLocalStorage();
 }
 
 function save() {
@@ -70,6 +84,13 @@ function save() {
 function discard() {
     localStorage.removeItem("bestBrain");
 }
+
+function drawBrainId(ctx, bestBrain) {
+    const spanElement = document.getElementById("currentBrainValue");
+    spanElement.textContent += bestCar.brain.id;
+}
+
+drawBrainId(carContext);
 
 animate();
 

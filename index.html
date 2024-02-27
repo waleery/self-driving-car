@@ -12,10 +12,19 @@
     </head>
     <body>
         <canvas id="carCanvas"></canvas>
-        <div id="verticalButtons">
-            <button onclick="save()">Save brain</button>
-            <button onclick="discard()">Discard brain</button>
-            <button onclick="resetRun()">New run</button>
+        <div class="middleSection">
+            <div class="brainInfo">
+                <p>Current brain:</p>
+                <p id="currentBrainValue"></p>
+
+                <p>Saved brain:</p>
+                <p id="savedBrainValue"></p>
+            </div>
+            <div id="verticalButtons">
+                <button onclick="save()">Save brain</button>
+                <button onclick="discard()">Discard brain</button>
+                <button onclick="resetRun()">New run</button>
+            </div>
         </div>
         <canvas id="networkCanvas"></canvas>
         <script src="visualizer.js"></script>
