@@ -9,22 +9,21 @@ const networkContext = networkCanvas.getContext("2d");
 
 const carContextSaved = carContext.save();
 const networkContextSaved = networkContext.save();
+const savedBrainValue = document.getElementById("savedBrainValue");
 
 let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
 //const cars = [new Car(road.getLaneCenter(1), 500, 30, 50, "KEYS")];
 
 const N = 100;
+let bestCar
 let cars = generateCars(N);
 let traffic = generateTraffic(10);
 
 getBestBrainFromLocalStorage();
 
-let bestCar = cars[0];
 
 function getBestBrainFromLocalStorage() {
-    const savedBrainValue = document.getElementById("savedBrainValue");
-
     if (localStorage.getItem("bestBrain")) {
         for (let i = 0; i < cars.length; i++) {
             const bestBrain = JSON.parse(localStorage.getItem("bestBrain"));
@@ -68,6 +67,8 @@ function generateCars(N) {
     for (let i = 0; i <= N; i++) {
         cars.push(new Car(road.getLaneCenter(1), 500, 30, 50, "AI"));
     }
+
+    bestCar = cars[0];
     return cars;
 }
 
@@ -75,19 +76,22 @@ function resetRun() {
     cars = generateCars(N);
     traffic = generateTraffic(10);
     getBestBrainFromLocalStorage();
+    drawBrainId()
 }
 
 function save() {
     localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
+    savedBrainValue.textContent = bestCar.brain.id;
 }
 
 function discard() {
     localStorage.removeItem("bestBrain");
+    savedBrainValue.textContent = "";
 }
 
 function drawBrainId(ctx, bestBrain) {
     const spanElement = document.getElementById("currentBrainValue");
-    spanElement.textContent += bestCar.brain.id;
+    spanElement.textContent = bestCar.brain.id;
 }
 
 drawBrainId(carContext);
