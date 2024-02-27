@@ -1,45 +1,34 @@
+//get canvases
 const carCanvas = document.getElementById("carCanvas");
-carCanvas.width = 200;
-
 const networkCanvas = document.getElementById("networkCanvas");
+
+//set canvases width
+carCanvas.width = 200;
 networkCanvas.width = 300;
 
+//get drawing contexts
 const carContext = carCanvas.getContext("2d");
 const networkContext = networkCanvas.getContext("2d");
 
-const carContextSaved = carContext.save();
-const networkContextSaved = networkContext.save();
+//get element displaying id of saved brain
 const savedBrainValue = document.getElementById("savedBrainValue");
 
+//make road instance
 let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
-//const cars = [new Car(road.getLaneCenter(1), 500, 30, 50, "KEYS")];
+const numberOfAICars = 100;
+const numberOfTrafficCars = 100;
 
-const N = 100;
+//initialization of car variables
 let bestCar
-let cars = generateCars(N);
-let traffic = generateTraffic(10);
+let cars = generateCars(numberOfAICars);
+let traffic = generateTraffic(numberOfTrafficCars);
 
 getBestBrainFromLocalStorage();
 
+drawCurrentBrainId();
 
-function getBestBrainFromLocalStorage() {
-    if (localStorage.getItem("bestBrain")) {
-        for (let i = 0; i < cars.length; i++) {
-            const bestBrain = JSON.parse(localStorage.getItem("bestBrain"));
-            cars[i].brain = bestBrain;
-
-            savedBrainValue.textContent = bestBrain.id;
-
-            //mutate every car except best one
-            if (i != 0) {
-                NeuralNetwork.mutate(cars[i].brain, 0.05);
-            }
-        }
-    } else {
-        savedBrainValue.textContent = "";
-    }
-}
+animate();
 
 function generateTraffic(n) {
     const traffic = [];
@@ -58,7 +47,6 @@ function generateTraffic(n) {
             )
         );
     }
-    console.log(traffic);
     return traffic;
 }
 
@@ -89,20 +77,28 @@ function discard() {
     savedBrainValue.textContent = "";
 }
 
-function drawBrainId(ctx, bestBrain) {
+function drawCurrentBrainId() {
     const spanElement = document.getElementById("currentBrainValue");
     spanElement.textContent = bestCar.brain.id;
 }
 
-drawBrainId(carContext);
-
-animate();
+function findBestCar(){
+    bestCar = cars.find(
+        (car) =>
+            car.y ===
+            Math.min(
+                ...cars.map((car) => car.y) //creating array with only y values and spreading this array
+            )
+    );
+}
 
 function animate(time) {
     //if we change carCanvas height on each frame, we dont need to clear carCanvas
+    //carContext.clearRect(0,0, carCanvas.width, window.innerHeight)
+    
+    //update canvases height
     carCanvas.height = window.innerHeight;
     networkCanvas.height = window.innerHeight;
-    //carContext.clearRect(0,0, carCanvas.width, window.innerHeight)
 
     //update traffic cars positions
     for (let i = 0; i < traffic.length; i++) {
@@ -114,13 +110,7 @@ function animate(time) {
         cars[i].update(road.borders, traffic);
     }
 
-    bestCar = cars.find(
-        (car) =>
-            car.y ===
-            Math.min(
-                ...cars.map((car) => car.y) //creating array with only y values and spreading this array
-            )
-    );
+    findBestCar()
 
     //save carContext, because on each frame translate would be added
     carContext.save();
@@ -138,6 +128,7 @@ function animate(time) {
 
     //change cars opacity
     carContext.globalAlpha = 0.2;
+
     //draw AI cars
     for (let i = 0; i < cars.length; i++) {
         cars[i].draw(carContext);
@@ -157,4 +148,22 @@ function animate(time) {
     Visualizer.drawNetwork(networkContext, bestCar.brain);
 
     requestAnimationFrame(animate);
+}
+
+function getBestBrainFromLocalStorage() {
+    if (localStorage.getItem("bestBrain")) {
+        for (let i = 0; i < cars.length; i++) {
+            const bestBrain = JSON.parse(localStorage.getItem("bestBrain"));
+            cars[i].brain = bestBrain;
+
+            savedBrainValue.textContent = bestBrain.id;
+
+            //mutate every car except best one
+            if (i != 0) {
+                NeuralNetwork.mutate(cars[i].brain, 0.05);
+            }
+        }
+    } else {
+        savedBrainValue.textContent = "";
+    }
 }
