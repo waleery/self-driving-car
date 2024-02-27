@@ -13,6 +13,23 @@ const networkContext = networkCanvas.getContext("2d");
 //get element displaying id of saved brain
 const savedBrainValue = document.getElementById("savedBrainValue");
 
+//get input to change AI or KEYS car
+const inputCarType = document.getElementById("AIcars");
+
+let carType = inputCarType ? "AI" : "KEYS"
+
+inputCarType.addEventListener("change", (event) => {
+    const isChecked = event.target.checked;
+    carType = isChecked ? "AI" : "KEYS"
+
+    resetRun()
+
+    //lost focus
+    inputCarType.blur()
+
+});
+
+
 //make road instance
 let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
 
@@ -20,7 +37,7 @@ const numberOfAICars = 100;
 const numberOfTrafficCars = 100;
 
 //initialization of car variables
-let bestCar
+let bestCar;
 let cars = generateCars(numberOfAICars);
 let traffic = generateTraffic(numberOfTrafficCars);
 
@@ -52,8 +69,12 @@ function generateTraffic(n) {
 
 function generateCars(N) {
     const cars = [];
-    for (let i = 0; i <= N; i++) {
-        cars.push(new Car(road.getLaneCenter(1), 500, 30, 50, "AI"));
+    if (carType === "AI") {
+        for (let i = 0; i <= N; i++) {
+            cars.push(new Car(road.getLaneCenter(1), 500, 30, 50, "AI"));
+        }
+    } else {
+        cars.push(new Car(road.getLaneCenter(1), 500, 30, 50, "KEYS"));
     }
 
     bestCar = cars[0];
@@ -61,10 +82,10 @@ function generateCars(N) {
 }
 
 function resetRun() {
-    cars = generateCars(N);
-    traffic = generateTraffic(10);
+    cars = generateCars(numberOfAICars);
+    traffic = generateTraffic(numberOfTrafficCars);
     getBestBrainFromLocalStorage();
-    drawBrainId()
+    drawCurrentBrainId();
 }
 
 function save() {
@@ -82,7 +103,7 @@ function drawCurrentBrainId() {
     spanElement.textContent = bestCar.brain.id;
 }
 
-function findBestCar(){
+function findBestCar() {
     bestCar = cars.find(
         (car) =>
             car.y ===
@@ -95,7 +116,7 @@ function findBestCar(){
 function animate(time) {
     //if we change carCanvas height on each frame, we dont need to clear carCanvas
     //carContext.clearRect(0,0, carCanvas.width, window.innerHeight)
-    
+
     //update canvases height
     carCanvas.height = window.innerHeight;
     networkCanvas.height = window.innerHeight;
@@ -110,7 +131,7 @@ function animate(time) {
         cars[i].update(road.borders, traffic);
     }
 
-    findBestCar()
+    findBestCar();
 
     //save carContext, because on each frame translate would be added
     carContext.save();
