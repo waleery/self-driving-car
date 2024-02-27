@@ -95,7 +95,7 @@ function save() {
 
 function discard() {
     localStorage.removeItem("bestBrain");
-    savedBrainValue.textContent = "";
+    savedBrainValue.textContent = "--------";
 }
 
 function drawCurrentBrainId() {
@@ -185,6 +185,6 @@ function getBestBrainFromLocalStorage() {
             }
         }
     } else {
-        savedBrainValue.textContent = "";
+        savedBrainValue.textContent = "--------";
     }
 }

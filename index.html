@@ -14,12 +14,20 @@
         <canvas id="carCanvas"></canvas>
         <div class="middleSection">
             <div class="brainInfo">
-                <p>Current brain:</p>
-                <p id="currentBrainValue"></p>
+                <div class="middleSubsection">
+                    <p>Current brain:</p>
+                    <p class="value" id="currentBrainValue"></p>
+                </div>
 
-                <p>Saved brain:</p>
-                <p id="savedBrainValue"></p>
-                <div>AI cars:<input type="checkbox" id="AIcars" checked="true"></input></div>
+                <div class="middleSubsection">
+                    <p>Saved brain:</p>
+                    <p class="value" id="savedBrainValue"></p>
+                </div>
+
+                <div class="middleSubsection">
+                    <span>AI cars:</span>
+                    <input type="checkbox" id="AIcars" checked="true" />
+                </div>
             </div>
             <div id="verticalButtons">
                 <button onclick="save()">Save brain</button>
