@@ -47,6 +47,8 @@ getBestBrainFromLocalStorage();
 
 drawCurrentBrainId();
 
+hideBrainInfo()
+
 animate();
 
 function generateTraffic(n) {
@@ -194,13 +196,29 @@ function getBestBrainFromLocalStorage() {
 checkboxGameType.addEventListener("change", (event) => {
     const isChecked = event.target.checked;
     carType = isChecked ? "AI" : "KEYS"
-
+    hideBrainInfo()
     resetRun()
 
     //lost focus
     checkboxGameType.blur()
 
 });
+
+function hideBrainInfo(){
+        let displayBrainInfo = checkboxGameType.checked ? "block" : 'none'
+    
+        const barinInfoSection = document.getElementsByClassName('brainInfo')
+        console.log(barinInfoSection)
+
+        Array.from(barinInfoSection).forEach(element => {
+            console.log(element)
+            element.style.display = displayBrainInfo
+            
+        });
+    
+}
+
+
 
 //set input range to default value
 mutateRangeInput.value = mutateValue

@@ -24,9 +24,10 @@ html{
 
 }
 
-.brainInfo{
+.topSection{
     position: absolute;
     top: 0;
+    min-width: 100px;
     text-align: center;
 
     p{
