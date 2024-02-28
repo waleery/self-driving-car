@@ -10,28 +10,27 @@ networkCanvas.width = 300;
 const carContext = carCanvas.getContext("2d");
 const networkContext = networkCanvas.getContext("2d");
 
-//get element displaying id of saved brain
-const savedBrainValue = document.getElementById("savedBrainValue");
+const numberOfAICars = 100;
+const numberOfTrafficCars = 100;
 
-//get input to change AI or KEYS car
-const inputCarType = document.getElementById("AIcars");
 
-let carType = inputCarType ? "AI" : "KEYS"
-
-inputCarType.addEventListener("change", (event) => {
-    const isChecked = event.target.checked;
-    carType = isChecked ? "AI" : "KEYS"
-
-    resetRun()
-
-    //lost focus
-    inputCarType.blur()
-
-});
+// default 'game' type  AI/KEYS
+let carType = "AI"
 
 //default mutate value
 let mutateValue = 20
 
+//make road instance
+let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
+
+//initialization of car variables
+let bestCar;
+let cars = generateCars(numberOfAICars);
+let traffic = generateTraffic(numberOfTrafficCars);
+
+
+//get element displaying id of saved brain
+const savedBrainValue = document.getElementById("savedBrainValue");
 
 //get range input to change AI mutation
 const mutateRangeInput = document.getElementById("mutateRange");
@@ -39,35 +38,10 @@ const mutateRangeInput = document.getElementById("mutateRange");
 //get label to display mutate value
 const mutateRangeLabel = document.getElementById("rangeValue");
 
+//get input to change game type
+const checkboxGameType = document.getElementById("AIcars");
 
-//set input range to default value
-mutateRangeInput.value = mutateValue
-
-//update label which display mutate value
-mutateRangeLabel.textContent = mutateRangeInput.value +"%"
-
-//event listener which ONLY update label with mutate value (change is alvays visible)
-mutateRangeInput.addEventListener("input", function(event) {
-    mutateRangeLabel.textContent = mutateRangeInput.value +"%";
-});
-//event listener which update mutateValue (change is fired after mouseup)
-mutateRangeInput.addEventListener("mouseup", function(event) {
-    mutateValue = event.target.value
-    resetRun()
-});
-
-
-
-//make road instance
-let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
-
-const numberOfAICars = 100;
-const numberOfTrafficCars = 100;
-
-//initialization of car variables
-let bestCar;
-let cars = generateCars(numberOfAICars);
-let traffic = generateTraffic(numberOfTrafficCars);
+checkboxGameType.checked = carType == "AI" ? true : false
 
 getBestBrainFromLocalStorage();
 
@@ -216,3 +190,32 @@ function getBestBrainFromLocalStorage() {
         savedBrainValue.textContent = "--------";
     }
 }
+//event listener to change 'game' type
+checkboxGameType.addEventListener("change", (event) => {
+    const isChecked = event.target.checked;
+    carType = isChecked ? "AI" : "KEYS"
+
+    resetRun()
+
+    //lost focus
+    checkboxGameType.blur()
+
+});
+
+//set input range to default value
+mutateRangeInput.value = mutateValue
+
+//update label which display mutate value
+mutateRangeLabel.textContent = mutateRangeInput.value +"%"
+
+//event listener which ONLY update label with mutate value (change is alvays visible)
+mutateRangeInput.addEventListener("input", function(event) {
+    mutateRangeLabel.textContent = mutateRangeInput.value +"%";
+});
+
+//event listener which update mutateValue (change is fired after mouseup)
+mutateRangeInput.addEventListener("mouseup", function(event) {
+    mutateValue = event.target.value
+    resetRun()
+});
+
