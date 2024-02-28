@@ -43,6 +43,39 @@ const checkboxGameType = document.getElementById("AIcars");
 
 checkboxGameType.checked = carType == "AI" ? true : false
 
+
+//event listener to change 'game' type
+checkboxGameType.addEventListener("change", (event) => {
+    const isChecked = event.target.checked;
+    carType = isChecked ? "AI" : "KEYS"
+    hideBrainInfo()
+    resetRun()
+
+    //lost focus
+    checkboxGameType.blur()
+
+});
+
+//set input range to default value
+mutateRangeInput.value = mutateValue
+
+//update label which display mutate value
+mutateRangeLabel.textContent = mutateRangeInput.value +"%"
+
+//event listener which ONLY update label with mutate value (change is alvays visible)
+mutateRangeInput.addEventListener("input", function(event) {
+    mutateRangeLabel.textContent = mutateRangeInput.value +"%";
+});
+
+//event listener which update mutateValue (change is fired after mouseup)
+mutateRangeInput.addEventListener("mouseup", function(event) {
+    mutateValue = event.target.value
+    resetRun()
+});
+
+
+
+
 getBestBrainFromLocalStorage();
 
 drawCurrentBrainId();
@@ -95,11 +128,13 @@ function resetRun() {
 function save() {
     localStorage.setItem("bestBrain", JSON.stringify(bestCar.brain));
     savedBrainValue.textContent = bestCar.brain.id;
+    displayMutateValue()
 }
 
 function discard() {
     localStorage.removeItem("bestBrain");
     savedBrainValue.textContent = "--------";
+    displayMutateValue()
 }
 
 function drawCurrentBrainId() {
@@ -174,6 +209,16 @@ function animate(time) {
 
     requestAnimationFrame(animate);
 }
+function displayMutateValue(){
+    if (localStorage.getItem("bestBrain")) {
+        mutateRangeInput.disabled = false
+        mutateRangeLabel.textContent = mutateRangeInput.value +"%"
+    } else {
+        mutateRangeInput.disabled = true
+        mutateRangeLabel.textContent = "Save brain!"
+        savedBrainValue.textContent = "--------";
+    }
+}
 
 function getBestBrainFromLocalStorage() {
     if (localStorage.getItem("bestBrain")) {
@@ -188,21 +233,9 @@ function getBestBrainFromLocalStorage() {
                 NeuralNetwork.mutate(cars[i].brain, mutateValue/100); //we want percents in mutate value
             }
         }
-    } else {
-        savedBrainValue.textContent = "--------";
-    }
+    } 
+    displayMutateValue()
 }
-//event listener to change 'game' type
-checkboxGameType.addEventListener("change", (event) => {
-    const isChecked = event.target.checked;
-    carType = isChecked ? "AI" : "KEYS"
-    hideBrainInfo()
-    resetRun()
-
-    //lost focus
-    checkboxGameType.blur()
-
-});
 
 function hideBrainInfo(){
         let displayBrainInfo = checkboxGameType.checked ? "block" : 'none'
@@ -218,22 +251,4 @@ function hideBrainInfo(){
     
 }
 
-
-
-//set input range to default value
-mutateRangeInput.value = mutateValue
-
-//update label which display mutate value
-mutateRangeLabel.textContent = mutateRangeInput.value +"%"
-
-//event listener which ONLY update label with mutate value (change is alvays visible)
-mutateRangeInput.addEventListener("input", function(event) {
-    mutateRangeLabel.textContent = mutateRangeInput.value +"%";
-});
-
-//event listener which update mutateValue (change is fired after mouseup)
-mutateRangeInput.addEventListener("mouseup", function(event) {
-    mutateValue = event.target.value
-    resetRun()
-});
 
