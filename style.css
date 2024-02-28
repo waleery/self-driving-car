@@ -19,6 +19,7 @@ html{
 
     input{
         margin-bottom: 0;
+        max-width: 80px;
     }
 
 }

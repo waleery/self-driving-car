@@ -29,6 +29,34 @@ inputCarType.addEventListener("change", (event) => {
 
 });
 
+//default mutate value
+let mutateValue = 20
+
+
+//get range input to change AI mutation
+const mutateRangeInput = document.getElementById("mutateRange");
+
+//get label to display mutate value
+const mutateRangeLabel = document.getElementById("rangeValue");
+
+
+//set input range to default value
+mutateRangeInput.value = mutateValue
+
+//update label which display mutate value
+mutateRangeLabel.textContent = mutateRangeInput.value +"%"
+
+//event listener which ONLY update label with mutate value (change is alvays visible)
+mutateRangeInput.addEventListener("input", function(event) {
+    mutateRangeLabel.textContent = mutateRangeInput.value +"%";
+});
+//event listener which update mutateValue (change is fired after mouseup)
+mutateRangeInput.addEventListener("mouseup", function(event) {
+    mutateValue = event.target.value
+    resetRun()
+});
+
+
 
 //make road instance
 let road = new Road(carCanvas.width / 2, carCanvas.width * 0.9);
@@ -181,7 +209,7 @@ function getBestBrainFromLocalStorage() {
 
             //mutate every car except best one
             if (i != 0) {
-                NeuralNetwork.mutate(cars[i].brain, 0.05);
+                NeuralNetwork.mutate(cars[i].brain, mutateValue/100); //we want percents in mutate value
             }
         }
     } else {
