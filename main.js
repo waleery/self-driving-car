@@ -68,10 +68,15 @@ mutateRangeInput.addEventListener("input", function(event) {
 });
 
 //event listener which update mutateValue (change is fired after mouseup)
-mutateRangeInput.addEventListener("mouseup", function(event) {
+mutateRangeInput.addEventListener("mouseup", updateMutateValue);
+
+//to work on moblie devices
+mutateRangeInput.addEventListener("touchend", updateMutateValue);
+
+function updateMutateValue(event) {
     mutateValue = event.target.value
     resetRun()
-});
+}
 
 
 
