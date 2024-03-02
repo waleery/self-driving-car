@@ -112,7 +112,7 @@ function generateTraffic(n) {
 function generateCars(N) {
     const cars = [];
     if (carType === "AI") {
-        for (let i = 0; i <= N; i++) {
+        for (let i = 0; i < N; i++) {
             cars.push(new Car(road.getLaneCenter(1), 500, 30, 50, "AI"));
         }
     } else {
