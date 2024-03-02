@@ -147,6 +147,12 @@ function drawCurrentBrainId() {
     spanElement.textContent = bestCar.brain.id;
 }
 
+function checkIfAllCarsAreDamaged(){
+    //if this return -1 this mean al cars are damaged
+    let allCarsDamaged = cars.findIndex(car=> car.damaged === false)
+    return !!allCarsDamaged
+}
+
 function findBestCar() {
     bestCar = cars.find(
         (car) =>
@@ -176,6 +182,7 @@ function animate(time) {
     }
 
     findBestCar();
+    checkIfAllCarsAreDamaged()
 
     //save carContext, because on each frame translate would be added
     carContext.save();
