@@ -10,7 +10,7 @@ networkCanvas.width = 300;
 const carContext = carCanvas.getContext("2d");
 const networkContext = networkCanvas.getContext("2d");
 
-const numberOfAICars = 100;
+const numberOfAICars = 1;
 const numberOfTrafficCars = 100;
 
 
@@ -147,10 +147,11 @@ function drawCurrentBrainId() {
     spanElement.textContent = bestCar.brain.id;
 }
 
-function checkIfAllCarsAreDamaged(){
+function resetIfAllCarsAreDamaged(){
     //if this return -1 this mean al cars are damaged
     let allCarsDamaged = cars.findIndex(car=> car.damaged === false)
-    return !!allCarsDamaged
+    
+    !!allCarsDamaged ? resetRun() : null
 }
 
 function findBestCar() {
@@ -182,7 +183,7 @@ function animate(time) {
     }
 
     findBestCar();
-    checkIfAllCarsAreDamaged()
+    
 
     //save carContext, because on each frame translate would be added
     carContext.save();
@@ -219,7 +220,10 @@ function animate(time) {
     networkContext.lineDashOffset = -time / 50; // '-' to change direction of movement
     Visualizer.drawNetwork(networkContext, bestCar.brain);
 
+    resetIfAllCarsAreDamaged()
+
     requestAnimationFrame(animate);
+
 }
 function displayMutateValue(){
     if (localStorage.getItem("bestBrain")) {
